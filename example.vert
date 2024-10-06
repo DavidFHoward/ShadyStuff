@@ -12,6 +12,8 @@ void main() {
   position.xy = position.xy * 2. - 1.;
   position.xy *= .75;
   
+  
+  position.y += sin(mills/1000. + position.x * 8.)/16.;
   position.x += sin(mills/1000. + position.y * 8.)/16.;
   gl_Position = position;
 }

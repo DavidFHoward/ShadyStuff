@@ -29,5 +29,5 @@ function draw() {
   exampleShader.setUniform("mills", millis()); 
   // run shader
   // rect(0, 0, width, height);
-  ellipse(0, 0, height, width, 100);
+  ellipse(0, 0, height, width, 1000);
 }
