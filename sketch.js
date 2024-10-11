@@ -10,7 +10,7 @@
 // audio.play();
 
 const audioContext = new AudioContext();
-const audio = new Audio("./Deep Sea Soar.mp3");
+const audio = new Audio("https://davidfhoward.github.io/ShadyStuff/Deep Sea Soar.mp3");
 const analyser = audioContext.createAnalyser();
 var playing = false;
 
