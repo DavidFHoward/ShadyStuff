@@ -10,7 +10,17 @@
 // audio.play();
 
 const audioContext = new AudioContext();
-const audio = new Audio("https://davidfhoward.github.io/ShadyStuff/Deep Sea Soar.mp3");
+
+console.log(location.hostname);
+if(location.hostname === "127.0.0.1")
+{
+  audio = new Audio("./Deep Sea Soar.mp3");
+}
+else
+{
+  audio = new Audio("https://davidfhoward.github.io/ShadyStuff/Deep Sea Soar.mp3");
+}
+
 const analyser = audioContext.createAnalyser();
 var playing = false;
 
