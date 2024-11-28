@@ -1,9 +1,7 @@
 attribute vec3 aPosition;
 attribute vec2 aTexCoord;
 float average;
-//float test;
-//int makeshiftModulo;
-varying vec2 pos;
+varying vec3 pos;
 
 uniform float mills;
 uniform int fft[1024];
@@ -12,19 +10,14 @@ void main() {
   pos = aTexCoord;
 
   vec4 position = vec4(aPosition, 1.);
-  position.xy = position.xy * 2. - 1.;
-
-  //test = mills / 500.;
-  //test -= floor(test);
-  //test *= 100.;
-  //makeshiftModulo = int(floor(test));
+  //position.xyz = position.xy * 2. - 1.;
 
   for(int i = 0; i < 1024; i++)
   {
     average += float(fft[i]);
   }
   average = average / 1024.;
-  position.xy *= .75;
+  position.xyz *= .75;
 
   if(playing)
   {

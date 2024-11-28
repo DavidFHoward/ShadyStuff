@@ -1,17 +1,13 @@
-// function setup() {
-//   createCanvas(700, 500);
-// }
-
-// function draw() {
-//   background(5);
-//   circle(60);
-// }
-// const audio = document.querySelector("audio");
-// audio.play();
-
 const audioContext = new AudioContext();
+const analyser = audioContext.createAnalyser();
+var playing = false;
+let angleX = -500;
+let angleY = -100;
+let angleZ = 500;
+let zoom = 100;
+let img;
+//let exampleShader;
 
-console.log(location.hostname);
 if(location.hostname === "127.0.0.1")
 {
   audio = new Audio("./Deep Sea Soar.mp3");
@@ -21,30 +17,22 @@ else
   audio = new Audio("https://davidfhoward.github.io/ShadyStuff/Deep Sea Soar.mp3");
 }
 
-const analyser = audioContext.createAnalyser();
-var playing = false;
-
-
-
-
-let exampleShader;
-
-
 // load in the shader
 function preload() {
   const source = audioContext.createMediaElementSource(audio);
   source.connect(audioContext.destination);
-
+  img = loadImage("./cat-care_general-cat-care_body1-left.jpg")
   source.connect(analyser);
-  exampleShader = loadShader('example.vert', 'example.frag');
+  //exampleShader = loadShader('example.vert', 'example.frag');
+  
 }
 
 function setup() {
   createCanvas(800, 800, WEBGL);
   
   // tell p5 to use the shader
-  shader(exampleShader);
-  noStroke();
+  //shader(exampleShader);
+  //noStroke();
   
   //audio stuff
   const playBtn = document.querySelector(".play");
@@ -74,39 +62,56 @@ function setup() {
 
 function draw() {
   clear();
-  background(5);
+  background(175);
 
 
   // audio stuff
   analyser.fftSize = 2048;
   analyser.frequencyBinCount = 1024;
   const dataArray = new Uint8Array(1024);
-  //var num = dataArray[512];
+
   // console.log(audioContext);
   // console.log(analyser);
 
-  //console.log(dataArray);
-  exampleShader.setUniform("millis", millis());
-  exampleShader.setUniform("mills", millis());
-  exampleShader.setUniform("playing", playing);
+
+  //exampleShader.setUniform("millis", millis());
+  //exampleShader.setUniform("mills", millis());
+  //exampleShader.setUniform("playing", playing);
   analyser.getByteTimeDomainData(dataArray);
-  exampleShader.setUniform("fft", dataArray); 
-  //console.log(dataArray);
-  ellipse(0, 0, height, width, 100);
+  //exampleShader.setUniform("fft", dataArray); 
+  rectMode(CENTER);
+  translate(mouseX - width/2, mouseY - height/2);
+  rotateX(angleX);
+  rotateY(angleY);
+  rotateZ(angleZ);
+  
+  //rect(0, 0, 150, 100);
+  noStroke();
+  //pointLight(255, 255, 255, -200, -200, 0);
+  directionalLight(255, 100, 100, 1, 1, 0);
+  ambientLight(100, 100, 255);
+  //ambientMaterial(255, 0, 255);
+  texture(img);
+  //torus(zoom, zoom * .5, 100, 50);
+  sphere(zoom);
+  
   
 }
 
-// //audio stuff I found that doesnt work
-// var audioContext = new AudioContext();
-// var source = audioContext.createBufferSource();
-// source.connect(audioContext.destination);
-// var xhr = new XMLHttpRequest();
-// xhr.open("GET", "Future Meow.mp3", true);
-// xhr.responseType = "arraybuffer";
-// xhr.onload = function() {
-//   var buffer = audioContext.createBuffer(xhr.response, false);
-//   source.buffer = buffer;
-//   source.noteOn(0);
-// };
-// xhr.send();
+function mouseWheel(event) {
+  zoom += event.delta * .2;
+}
+
+function mouseDragged() {
+  
+  
+  if (mouseX > 10) {
+    angleY += movedX * .01;// Code to run if the mouse is on the left.
+  }
+
+  if (mouseY > 10) {
+    angleX += movedY * .01;// Code to run if the mouse is near the bottom.
+  }
+}
+
 
