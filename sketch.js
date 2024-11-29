@@ -4,8 +4,9 @@ var playing = false;
 let angleX = -500;
 let angleY = -100;
 let angleZ = 500;
-let zoom = 100;
+let zoom = 0;
 let img;
+let average = 0;
 //let exampleShader;
 
 if(location.hostname === "127.0.0.1")
@@ -79,8 +80,13 @@ function draw() {
   //exampleShader.setUniform("playing", playing);
   analyser.getByteTimeDomainData(dataArray);
   //exampleShader.setUniform("fft", dataArray); 
+  for(let i = 0; i < dataArray.length / 4; i++)
+  {
+    average += dataArray[i];
+  }
+  average = average / (dataArray.length / 4);
   rectMode(CENTER);
-  translate(mouseX - width/2, mouseY - height/2);
+  translate(mouseX - width/2, mouseY - height/2, zoom);
   rotateX(angleX);
   rotateY(angleY);
   rotateZ(angleZ);
@@ -93,13 +99,13 @@ function draw() {
   //ambientMaterial(255, 0, 255);
   texture(img);
   //torus(zoom, zoom * .5, 100, 50);
-  sphere(zoom);
+  sphere(100 + average);
   
   
 }
 
 function mouseWheel(event) {
-  zoom += event.delta * .2;
+  zoom += event.delta;
 }
 
 function mouseDragged() {
