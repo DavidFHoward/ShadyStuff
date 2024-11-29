@@ -80,11 +80,11 @@ function draw() {
   //exampleShader.setUniform("playing", playing);
   analyser.getByteTimeDomainData(dataArray);
   //exampleShader.setUniform("fft", dataArray); 
-  for(let i = 0; i < dataArray.length / 4; i++)
+  for(let i = 0; i < dataArray.length / 8; i++)
   {
     average += dataArray[i];
   }
-  average = average / (dataArray.length / 4);
+  average = average / (dataArray.length / 8);
   rectMode(CENTER);
   translate(mouseX - width/2, mouseY - height/2, zoom);
   rotateX(angleX);
